@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Calculator</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        #history { margin-top: 20px; }
+        .tab-content { margin-top: 20px; }
+          /* Default Light Theme */
+          .light-theme {
+            --background-color: #f8f9fa;
+            --text-color: #212529;
+            --card-bg-color: #ffffff;
+            --border-color: #dee2e6;
+        }
+        
+        /* Dark Theme */
+        .dark-theme {
+            --background-color: #212529;
+            --text-color: #f8f9fa;
+            --card-bg-color: #343a40;
+            --border-color: #495057;
+        }
+
+        /* Additional Color Themes */
+        .blue-theme {
+            --background-color: #e3f2fd;
+            --text-color: #0d47a1;
+            --card-bg-color: #bbdefb;
+            --border-color: #90caf9;
+        }
+        .green-theme {
+            --background-color: #e8f5e9;
+            --text-color: #1b5e20;
+            --card-bg-color: #c8e6c9;
+            --border-color: #81c784;
+        }
+        .red-theme {
+            --background-color: #ffebee;
+            --text-color: #b71c1c;
+            --card-bg-color: #ffcdd2;
+            --border-color: #ef9a9a;
+        }
+        .purple-theme {
+            --background-color: #f3e5f5;
+            --text-color: #4a148c;
+            --card-bg-color: #e1bee7;
+            --border-color: #ce93d8;
+        }
+        .teal-theme {
+            --background-color: #e0f2f1;
+            --text-color: #00695c;
+            --card-bg-color: #b2dfdb;
+            --border-color: #80cbc4;
+        }
+        .orange-theme {
+            --background-color: #fff3e0;
+            --text-color: #e65100;
+            --card-bg-color: #ffccbc;
+            --border-color: #ffab91;
+        }
+        .yellow-theme {
+            --background-color: #fffde7;
+            --text-color: #f57f17;
+            --card-bg-color: #fff9c4;
+            --border-color: #fff59d;
+        }
+        .pink-theme {
+            --background-color: #fce4ec;
+            --text-color: #880e4f;
+            --card-bg-color: #f8bbd0;
+            --border-color: #f48fb1;
+        }
+          /* Apply theme variables to the page */
+          body, .card, .nav-tabs .nav-link, .btn {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            border-color: var(--border-color);
+        }
+        .card, .btn {
+            background-color: var(--card-bg-color);
+        }
+        .nav-tabs .nav-link.active {
+            background-color: var(--border-color);
+            color: var(--text-color);
+        }
+        /* Style for hamburger menu button */
+        #hamburgerMenu {
+            margin-bottom: 15px;
+            position:relative; /* Allows dropdown positioning relative to this element */
+        }
+        /* Ensure the dropdown menu displays correctly */
+        #dropdownMenu {
+            display: none;
+            position:fixed;
+            background-color: #ffffff;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            min-width: 160px;
+        }
+        
+        /* Style for dropdown items */
+        .dropdown-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+        
+        .dropdown-item:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body class="purple-theme">
+    <div class="container mt-5">
+        <h2 class="text-center">Investment Calculator</h2>
+         <!-- Theme Selection Dropdown -->
+         <div class="text-right mb-3">
+            <label for="themeSelect">Choose Theme:</label>
+            <select id="themeSelect" class="form-control d-inline w-auto" onchange="changeTheme()">
+                <option value="purple-theme">Purple</option>
+                <option value="light-theme">Light</option>
+                <option value="dark-theme">Dark</option>
+                <option value="blue-theme">Blue</option>
+                <option value="green-theme">Green</option>
+                <option value="red-theme">Red</option>
+                <option value="teal-theme">Teal</option>
+                <option value="orange-theme">Orange</option>
+                <option value="yellow-theme">Yellow</option>
+                <option value="pink-theme">Pink</option>
+            </select>
+        </div>
+       
+             <!-- Hamburger menu for smaller screens -->
+        <div id="hamburgerMenu" class="text-left mb-3">
+            <button class="btn btn-primary" onclick="toggleDropdown(this)">☰ Menu</button>
+            <div id="dropdownMenu" class="dropdown-menu">
+                <div class="dropdown-item" onclick="switchTab('sip')">SIP Calculator</div>
+                <div class="dropdown-item" onclick="switchTab('lumpsum')">Lumpsum Calculator</div>
+                <div class="dropdown-item" onclick="switchTab('swp')">SWP Calculator</div>
+                <div class="dropdown-item" onclick="switchTab('inflation')">Inflation Calculator</div>
+            </div>
+        </div>
+            <!-- Tab Content -->
+            <div class="tab-content" id="calculatorTabsContent">
+
+                <!-- SIP Calculation Form -->
+                <div class="tab-pane fade show active" id="sip" role="tabpanel">
+                    <form id="sipForm">
+                        <div class="form-group">
+                            <label for="sipAmount">Monthly SIP Amount (₹):</label>
+                            <input type="number" id="sipAmount" class="form-control" placeholder="Enter SIP amount" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sipInterestRate">Expected Annual Return Rate (%):</label>
+                            <input type="number" id="sipInterestRate" class="form-control" placeholder="Enter interest rate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sipTenure">Tenure (Years):</label>
+                            <input type="number" id="sipTenure" class="form-control" placeholder="Enter tenure" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sipInflationRate">Expected Annual Inflation Rate (%):</label>
+                            <input type="number" id="sipInflationRate" class="form-control" placeholder="Enter inflation rate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sipStepUpRate">Step-Up Rate (%):</label>
+                            <input type="number" id="sipStepUpRate" class="form-control" placeholder="Enter step-up rate" required>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="calculateSIP()">Calculate SIP</button>
+                    </form>
+                    <div class="mt-4" id="sipResult"></div>
+                </div>
+
+                <!-- Lumpsum Calculation Form -->
+                <div class="tab-pane fade" id="lumpsum" role="tabpanel">
+                    <form id="lumpsumForm">
+                        <div class="form-group">
+                            <label for="lumpsumAmount">Investment Amount (₹):</label>
+                            <input type="number" id="lumpsumAmount" class="form-control" placeholder="Enter lumpsum amount" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lumpsumInterestRate">Expected Annual Return Rate (%):</label>
+                            <input type="number" id="lumpsumInterestRate" class="form-control" placeholder="Enter interest rate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lumpsumTenure">Tenure (Years):</label>
+                            <input type="number" id="lumpsumTenure" class="form-control" placeholder="Enter tenure" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lumpsumInflationRate">Expected Annual Inflation Rate (%):</label>
+                            <input type="number" id="lumpsumInflationRate" class="form-control" placeholder="Enter inflation rate" required>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="calculateLumpsum()">Calculate Lumpsum</button>
+                    </form>
+                    <div class="mt-4" id="lumpsumResult"></div>
+                </div>
+
+                <!-- SWP Calculation Form -->
+                <div class="tab-pane fade" id="swp" role="tabpanel">
+                    <form id="swpForm">
+                        <div class="form-group">
+                            <label for="swpInvestment">Investment Amount (₹):</label>
+                            <input type="number" id="swpInvestment" class="form-control" placeholder="Enter investment amount" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="swpInterestRate">Expected Annual Return Rate (%):</label>
+                            <input type="number" id="swpInterestRate" class="form-control" placeholder="Enter interest rate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="swpWithdrawal">Initial Monthly Withdrawal (₹):</label>
+                            <input type="number" id="swpWithdrawal" class="form-control" placeholder="Enter withdrawal amount" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="swpInflationRate">Expected Annual Inflation Rate (%):</label>
+                            <input type="number" id="swpInflationRate" class="form-control" placeholder="Enter inflation rate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="swpStepUp">Step-Up Rate (%):</label>
+                            <input type="number" id="swpStepUp" class="form-control" placeholder="Enter step-up rate" required>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="calculateSWP()">Calculate SWP</button>
+                    </form>
+                    <div class="mt-4" id="swpResult"></div>
+                </div>
+
+                <!-- Inflation Calculation Form -->
+                <div class="tab-pane fade" id="inflation" role="tabpanel">
+                    <form id="inflationForm">
+                        <div class="form-group">
+                            <label for="calculationType">Select Calculation Type:</label>
+                            <select id="calculationType" class="form-control" onchange="toggleFields()">
+                                <option value="futureValue">Calculate Future Value</option>
+                                <option value="presentValue">Calculate Present Value</option>
+                                <option value="inflationRate">Calculate Inflation Rate</option>
+                            </select>
+                        </div>
+                        
+                        <div id="initialAmountField" class="form-group">
+                            <label for="initialAmount">Initial Amount (₹):</label>
+                            <input type="number" id="initialAmount" class="form-control" placeholder="Enter initial amount">
+                        </div>
+                        
+                        <div id="futureAmountField" class="form-group" style="display: none;">
+                            <label for="futureAmount">Future Amount (₹):</label>
+                            <input type="number" id="futureAmount" class="form-control" placeholder="Enter future amount">
+                        </div>
+                        
+                        <div id="inflationRateField" class="form-group">
+                            <label for="inflationRate">Inflation Rate (%):</label>
+                            <input type="number" id="inflationRate" class="form-control" placeholder="Enter inflation rate">
+                        </div>
+                        
+                        <div id="yearsField" class="form-group">
+                            <label for="years">Number of Years:</label>
+                            <input type="number" id="years" class="form-control" placeholder="Enter number of years">
+                        </div>
+                        
+                        <button type="button" class="btn btn-primary" onclick="calculate()">Calculate</button>
+                    </form>
+
+                    <div class="mt-4" id="result" style="display: none;">
+                        <h5 id="resultText"></h5>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- History Section -->
+            <h5>Calculation History</h5>
+            <div id="history"></div>
+            
+            <h4 class="mt-5">Calculation History</h4>
+        <button class="btn btn-danger mb-2" onclick="clearHistory()">Clear History</button>
+        <div class="history" id="history"></div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
