@@ -1,5 +1,3 @@
-# Investment-Calculator
- 
 # Advanced Investment Calculator
 A comprehensive investment calculator offering SIP, Lumpsum, SWP (Systematic Withdrawal Plan), and inflation-adjusted calculations for optimized financial planning. Built with HTML, CSS, and JavaScript, this application enables users to make better-informed investment decisions by providing extensive customization and detailed projections.
 
