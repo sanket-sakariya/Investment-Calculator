@@ -28,7 +28,7 @@ Getting Started
 
 # Tech Stack
 HTML, CSS, JavaScript: Frontend technologies for a responsive and interactive experience.
-Bootstrap: Used for a clean and responsive layout.
+Tailwind css: Used for a clean and responsive layout.
 Local Storage: For saving calculation history, allowing users to access previous results even after a page refresh.
 This project goes beyond typical investment calculators, providing a unique and comprehensive solution tailored to the modern investor’s needs.
 
